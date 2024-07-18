@@ -8,7 +8,14 @@ public class SolanaUnrealClient : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+		PublicDependencyModuleNames.AddRange(new[]
+		{
+			"Core", 
+			"CoreUObject", 
+			"Engine", 
+			"InputCore",
+			"UMG"
+		});
 		PrivateDependencyModuleNames.Add("HTTP");
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
