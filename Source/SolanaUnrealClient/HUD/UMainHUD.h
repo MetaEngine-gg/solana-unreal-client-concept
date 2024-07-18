@@ -5,7 +5,7 @@
 #include "Components/Button.h"
 #include "Components/EditableTextBox.h"
 #include "Components/TextBlock.h"
-#include "FMainHUD.generated.h"
+#include "UMainHUD.generated.h"
 
 UCLASS()
 class SOLANAUNREALCLIENT_API UMainHUD : public UUserWidget
