@@ -1,15 +1,10 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "ABackendService.h"
 
 #include "HttpModule.h"
 #include "Interfaces/IHttpResponse.h"
 
-// Sets default values
 ABackendService::ABackendService()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 }
 
@@ -50,7 +45,6 @@ void ABackendService::TimerElapsed()
 	M_CallStackIndex++;
 }
 
-// Called when the game starts or when spawned
 void ABackendService::BeginPlay()
 {
 	Super::BeginPlay();
@@ -65,7 +59,6 @@ void ABackendService::BeginPlay()
 	M_CallStack[2] = BaseAPICall + "balance/" + Address;
 }
 
-// Called every frame
 void ABackendService::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
