@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
-#include "Components/EditableTextBox.h"
+#include "Components/EditableText.h"
 #include "Components/TextBlock.h"
 #include "UMainHUD.generated.h"
 
@@ -15,10 +15,10 @@ public:
 	void RunCommand();
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	UEditableTextBox* BaseApiText;
+	UEditableText* BaseApiText;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	UEditableTextBox* AddressText;
+	UEditableText* AddressText;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	UButton* RunButton;
