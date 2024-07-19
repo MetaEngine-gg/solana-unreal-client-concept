@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "SolanaUnrealClient/HUD/UMainHUD.h"
 #include "ASolanaPawn.generated.h"
 
 UCLASS()
@@ -19,6 +20,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -29,9 +32,9 @@ public:
 private:
 	// HUD class to spawn for head up display
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<class UMainHUD> MainHUD;
+	TSubclassOf<UMainHUD> MainHUDClass = nullptr;
 
 	// HUD instance
 	UPROPERTY()
-	class UMainHUD* MainHUDInstance;
+	UMainHUD* MainHUDInstance = nullptr;
 };

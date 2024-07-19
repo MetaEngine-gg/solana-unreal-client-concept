@@ -15,7 +15,25 @@ ASolanaPawn::ASolanaPawn()
 void ASolanaPawn::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (IsLocallyControlled() && MainHUDClass)
+	{
+		MainHUDInstance = CreateWidget<UMainHUD>(GetWorld(), MainHUDClass);
+		check(MainHUDInstance);
+		MainHUDInstance->AddToPlayerScreen();
+	}
+}
+
+void ASolanaPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	if (MainHUDInstance)
+	{
+		MainHUDInstance->RemoveFromParent();
+		// We can't destroy widget directly, because it will be destroyed by the GC
+		MainHUDInstance = nullptr;
+	}
 	
+	Super::EndPlay(EndPlayReason);
 }
 
 // Called every frame
