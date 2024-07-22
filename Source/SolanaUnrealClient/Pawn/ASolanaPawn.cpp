@@ -14,6 +14,7 @@ void ASolanaPawn::BeginPlay()
 		MainHUDInstance = CreateWidget<UMainHUD>(GetWorld(), MainHUDClass);
 		check(MainHUDInstance);
 		MainHUDInstance->AddToPlayerScreen();
+		MainHUDInstance->OnRunCommand.BindUObject(this, &ASolanaPawn::RunAPIRequest);
 	}
 }
 
@@ -37,4 +38,9 @@ void ASolanaPawn::Tick(float DeltaTime)
 void ASolanaPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+}
+
+void ASolanaPawn::RunAPIRequest(const FString& Call)
+{
+	
 }

@@ -7,6 +7,8 @@
 #include "Components/TextBlock.h"
 #include "UMainHUD.generated.h"
 
+DECLARE_DYNAMIC_DELEGATE_OneParam(FRunCommandDelegate);
+
 UCLASS()
 class SOLANAUNREALCLIENT_API UMainHUD : public UUserWidget
 {
@@ -25,4 +27,6 @@ public:
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	UTextBlock* OutputText;
+
+	FRunCommandDelegate OnRunCommand;
 };

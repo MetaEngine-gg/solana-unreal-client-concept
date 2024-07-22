@@ -31,4 +31,6 @@ private:
 	// HUD instance
 	UPROPERTY()
 	UMainHUD* MainHUDInstance = nullptr;
+
+	void RunAPIRequest(const FString& Call);
 };
