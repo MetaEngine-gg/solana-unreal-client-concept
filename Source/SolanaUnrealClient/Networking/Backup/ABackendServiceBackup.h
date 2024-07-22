@@ -6,12 +6,12 @@
 #include "ABackendService.generated.h"
 
 UCLASS()
-class SOLANAUNREALCLIENT_API ABackendService : public AActor
+class SOLANAUNREALCLIENT_API ABackendServiceBackup : public AActor
 {
 	GENERATED_BODY()
 
 public:
-	ABackendService();
+	ABackendServiceBackup();
 
 	void SendGetRequest(const FString& Url);
 	void HandleResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
