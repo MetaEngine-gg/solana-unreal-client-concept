@@ -19,16 +19,17 @@ void BackendService::SendGetRequest(const FString& Url)
 
 void BackendService::HandleResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
 {
+	FString ResponseStr;
 	if (bWasSuccessful && Response.IsValid())
 	{
-		const FString ResponseStr = Response->GetContentAsString();
-		UE_LOG(LogTemp, Warning, TEXT("Response: %s"), *ResponseStr);
+		ResponseStr = "[SUCCESS]" + Response->GetContentAsString();
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("Request failed"));
+		ResponseStr = "[FAIL]" + Response->GetContentAsString();
 	}
 
 	M_IsRequestComplete = true;
+	OnRequestComplete.Broadcast(ResponseStr);
 }
 

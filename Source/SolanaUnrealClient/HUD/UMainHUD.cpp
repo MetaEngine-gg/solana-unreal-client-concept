@@ -5,3 +5,13 @@ void UMainHUD::RunCommand()
 	FString Call = BaseApiText->GetText().ToString() + AddressText->GetText().ToString();
 	OnRunCommand.Broadcast(Call);
 }
+
+void UMainHUD::ClearOutputText()
+{
+	OutputText->SetText(FText::FromString(""));
+}
+
+void UMainHUD::SetOutputText(const FString& String)
+{
+	OutputText->SetText(FText::FromString(String));
+}

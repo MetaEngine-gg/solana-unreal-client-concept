@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "SolanaUnrealClient/HUD/UMainHUD.h"
+#include "SolanaUnrealClient/Networking/BackendService.h"
 #include "ASolanaPawn.generated.h"
 
 UCLASS()
@@ -24,13 +25,17 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
+	void RunAPIRequest(const FString& Call) const;
+	void OnRequestFinished(const FString& Output) const;
+
+private:
 	// HUD class to spawn for head up display
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UMainHUD> MainHUDClass = nullptr;
 
 	// HUD instance
 	UPROPERTY()
-	UMainHUD* MainHUDInstance = nullptr;
+	UMainHUD* M_MainHUDInstance = nullptr;
 
-	void RunAPIRequest(const FString& Call);
+	BackendService* M_BackendServiceInstance = nullptr;
 };

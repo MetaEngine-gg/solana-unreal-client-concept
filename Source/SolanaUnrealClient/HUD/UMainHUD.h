@@ -15,6 +15,8 @@ class SOLANAUNREALCLIENT_API UMainHUD : public UUserWidget
 	GENERATED_BODY()
 public:
 	void RunCommand();
+	void ClearOutputText();
+	void SetOutputText(const FString& String);
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	UEditableText* BaseApiText;

@@ -3,6 +3,7 @@
 ASolanaPawn::ASolanaPawn()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	M_BackendServiceInstance = new BackendService();
 }
 
 void ASolanaPawn::BeginPlay()
@@ -11,20 +12,22 @@ void ASolanaPawn::BeginPlay()
 
 	if (IsLocallyControlled() && MainHUDClass)
 	{
-		MainHUDInstance = CreateWidget<UMainHUD>(GetWorld(), MainHUDClass);
-		check(MainHUDInstance);
-		MainHUDInstance->AddToPlayerScreen();
-		MainHUDInstance->OnRunCommand.BindUObject(this, &ASolanaPawn::RunAPIRequest);
+		M_MainHUDInstance = CreateWidget<UMainHUD>(GetWorld(), MainHUDClass);
+		check(M_MainHUDInstance);
+		M_MainHUDInstance->AddToPlayerScreen();
+
+		M_MainHUDInstance->OnRunCommand.BindUObject(this, &ASolanaPawn::RunAPIRequest);
+		M_BackendServiceInstance->OnRequestComplete.BindUObject(M_MainHUDInstance, &ASolanaPawn::OnRequestFinished);
 	}
 }
 
 void ASolanaPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	if (MainHUDInstance)
+	if (M_MainHUDInstance)
 	{
-		MainHUDInstance->RemoveFromParent();
+		M_MainHUDInstance->RemoveFromParent();
 		// We can't destroy widget directly, because it will be destroyed by the GC
-		MainHUDInstance = nullptr;
+		M_MainHUDInstance = nullptr;
 	}
 
 	Super::EndPlay(EndPlayReason);
@@ -40,7 +43,13 @@ void ASolanaPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void ASolanaPawn::RunAPIRequest(const FString& Call)
+void ASolanaPawn::RunAPIRequest(const FString& Call) const
 {
-	
+	M_BackendServiceInstance->SendGetRequest(Call);
+}
+
+void ASolanaPawn::OnRequestFinished(const FString& Output) const
+{
+	M_MainHUDInstance->ClearOutputText();
+	M_MainHUDInstance->SetOutputText(Output);
 }
