@@ -17,7 +17,9 @@ public:
 	void RunCommand() const;
 	void ClearOutputText() const;
 	void SetOutputText(const FString& String) const;
-
+	
+	FRunCommandDelegate OnRunCommand;
+private:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	UEditableText* BaseApiText;
 
@@ -29,6 +31,4 @@ public:
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	UTextBlock* OutputText;
-
-	FRunCommandDelegate OnRunCommand;
 };
