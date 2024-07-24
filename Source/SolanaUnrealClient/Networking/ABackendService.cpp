@@ -28,7 +28,7 @@ void ABackendService::HandleResponse(FHttpRequestPtr Request, FHttpResponsePtr R
 	FString ResponseStr;
 	if (bWasSuccessful && Response.IsValid())
 	{
-		ResponseStr = "[SUCCESS]" + Response->GetContentAsString();
+		ResponseStr = "[RESPONSE] " + Response->GetContentAsString();
 	}
 	else
 	{
