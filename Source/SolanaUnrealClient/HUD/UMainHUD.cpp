@@ -7,7 +7,7 @@ void UMainHUD::Init() const
 
 void UMainHUD::RunCommand()
 {
-	FString Call = BaseApiText->GetText().ToString() + AddressText->GetText().ToString();
+	FString Call = BaseApiText->GetText().ToString();
 	OnRunCommand.Execute(Call);
 }
 

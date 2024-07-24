@@ -27,9 +27,6 @@ private:
 	UEditableText* BaseApiText;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	UEditableText* AddressText;
-
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	UButton* RunButton;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
