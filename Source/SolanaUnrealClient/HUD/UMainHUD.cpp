@@ -18,13 +18,13 @@ void UMainHUD::ClearOutputText() const
 
 void UMainHUD::AddOutputText(const FString& String)
 {
-	const FString NewText = OutputText->GetText().ToString() + "\n" + String;
-	OutputText->SetText(FText::FromString(NewText));
-	TextStackSize++;
-
 	if (TextStackSize > 10)
 	{
 		ClearOutputText();
 		TextStackSize = 0;
 	}
+
+	const FString NewText = OutputText->GetText().ToString() + "\n" + String;
+	OutputText->SetText(FText::FromString(NewText));
+	TextStackSize++;
 }
