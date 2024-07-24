@@ -19,7 +19,7 @@ public:
 	UFUNCTION()
 	void RunCommand();
 	void ClearOutputText() const;
-	void SetOutputText(const FString& String) const;
+	void AddOutputText(const FString& String);
 	
 	FRunCommandDelegate OnRunCommand;
 private:
@@ -34,4 +34,6 @@ private:
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	UTextBlock* OutputText;
+
+	uint32_t TextStackSize = 0;
 };

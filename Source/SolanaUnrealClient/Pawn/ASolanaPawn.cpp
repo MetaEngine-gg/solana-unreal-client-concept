@@ -52,6 +52,5 @@ void ASolanaPawn::RunAPIRequest(const FString Call) const
 
 void ASolanaPawn::OnRequestFinished(const FString Output) const
 {
-	M_MainHUDInstance->ClearOutputText();
-	M_MainHUDInstance->SetOutputText(Output);
+	M_MainHUDInstance->AddOutputText(Output);
 }

@@ -16,7 +16,14 @@ void UMainHUD::ClearOutputText() const
 	OutputText->SetText(FText::FromString(""));
 }
 
-void UMainHUD::SetOutputText(const FString& String) const
+void UMainHUD::AddOutputText(const FString& String)
 {
 	OutputText->SetText(FText::FromString(String));
+	TextStackSize++;
+
+	if (TextStackSize > 10)
+	{
+		ClearOutputText();
+		TextStackSize = 0;
+	}
 }
