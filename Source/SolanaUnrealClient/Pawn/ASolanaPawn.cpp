@@ -3,13 +3,14 @@
 ASolanaPawn::ASolanaPawn()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	M_BackendServiceInstance = NewObject<ABackendService>();
 }
 
 void ASolanaPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
+	M_BackendServiceInstance = GetWorld()->SpawnActor<ABackendService>();
+	
 	if (IsLocallyControlled() && MainHUDClass)
 	{
 		M_MainHUDInstance = CreateWidget<UMainHUD>(GetWorld(), MainHUDClass);
