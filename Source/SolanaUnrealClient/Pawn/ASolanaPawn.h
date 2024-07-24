@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "SolanaUnrealClient/HUD/UMainHUD.h"
-#include "SolanaUnrealClient/Networking/BackendService.h"
+#include "SolanaUnrealClient/Networking/ABackendService.h"
 #include "ASolanaPawn.generated.h"
 
 UCLASS()
@@ -37,5 +37,5 @@ private:
 	UPROPERTY()
 	UMainHUD* M_MainHUDInstance = nullptr;
 
-	BackendService* M_BackendServiceInstance = nullptr;
+	ABackendService* M_BackendServiceInstance = nullptr;
 };

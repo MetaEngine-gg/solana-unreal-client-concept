@@ -1,23 +1,23 @@
-#include "BackendService.h"
+#include "ABackendService.h"
 
 #include "HttpModule.h"
 #include "Interfaces/IHttpResponse.h"
 
-BackendService::BackendService()
+ABackendService::ABackendService()
 {
 }
 
-void BackendService::SendGetRequest(const FString& Url)
+void ABackendService::SendGetRequest(const FString& Url)
 {
 	M_IsRequestComplete = false;
 	M_HttpRequest = FHttpModule::Get().CreateRequest();
-	M_HttpRequest->OnProcessRequestComplete().BindUObject(this, &BackendService::HandleResponse);
+	M_HttpRequest->OnProcessRequestComplete().BindUObject(this, &ABackendService::HandleResponse);
 	M_HttpRequest->SetURL(Url);
 	M_HttpRequest->SetVerb("GET");
 	M_HttpRequest->ProcessRequest();
 }
 
-void BackendService::HandleResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+void ABackendService::HandleResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
 {
 	FString ResponseStr;
 	if (bWasSuccessful && Response.IsValid())
@@ -31,5 +31,15 @@ void BackendService::HandleResponse(FHttpRequestPtr Request, FHttpResponsePtr Re
 
 	M_IsRequestComplete = true;
 	OnRequestComplete.Execute(ResponseStr);
+}
+
+void ABackendService::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+void ABackendService::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
 }
 

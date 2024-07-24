@@ -3,7 +3,7 @@
 ASolanaPawn::ASolanaPawn()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	M_BackendServiceInstance = new BackendService();
+	M_BackendServiceInstance = NewObject<ABackendService>();
 }
 
 void ASolanaPawn::BeginPlay()
