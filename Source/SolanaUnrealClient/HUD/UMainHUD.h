@@ -7,14 +7,17 @@
 #include "Components/TextBlock.h"
 #include "UMainHUD.generated.h"
 
-DECLARE_DELEGATE_OneParam(FRunCommandDelegate, const FString& /*Call*/);
+DECLARE_DELEGATE_OneParam(FRunCommandDelegate, const FString /*Call*/);
 
 UCLASS()
 class SOLANAUNREALCLIENT_API UMainHUD : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	void RunCommand() const;
+	void Init() const;
+
+	UFUNCTION()
+	void RunCommand();
 	void ClearOutputText() const;
 	void SetOutputText(const FString& String) const;
 	

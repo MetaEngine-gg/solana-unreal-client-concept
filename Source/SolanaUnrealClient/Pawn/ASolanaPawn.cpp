@@ -15,6 +15,7 @@ void ASolanaPawn::BeginPlay()
 	{
 		M_MainHUDInstance = CreateWidget<UMainHUD>(GetWorld(), MainHUDClass);
 		check(M_MainHUDInstance);
+		M_MainHUDInstance->Init();
 		M_MainHUDInstance->AddToPlayerScreen();
 
 		M_MainHUDInstance->OnRunCommand.BindUObject(this, &ASolanaPawn::RunAPIRequest);
@@ -44,12 +45,12 @@ void ASolanaPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void ASolanaPawn::RunAPIRequest(const FString& Call) const
+void ASolanaPawn::RunAPIRequest(const FString Call) const
 {
 	M_BackendServiceInstance->SendGetRequest(Call);
 }
 
-void ASolanaPawn::OnRequestFinished(const FString& Output) const
+void ASolanaPawn::OnRequestFinished(const FString Output) const
 {
 	M_MainHUDInstance->ClearOutputText();
 	M_MainHUDInstance->SetOutputText(Output);

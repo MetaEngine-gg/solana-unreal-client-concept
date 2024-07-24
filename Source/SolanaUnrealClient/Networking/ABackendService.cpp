@@ -7,8 +7,14 @@ ABackendService::ABackendService()
 {
 }
 
-void ABackendService::SendGetRequest(const FString& Url)
+void ABackendService::SendGetRequest(const FString Url)
 {
+	if (Url.IsEmpty() || !Url.Contains("http://") && !Url.Contains("https://"))
+	{
+		UE_LOG(LogTemp, Error, TEXT("Url is invalid"));
+		return;
+	}
+	
 	M_IsRequestComplete = false;
 	M_HttpRequest = FHttpModule::Get().CreateRequest();
 	M_HttpRequest->OnProcessRequestComplete().BindUObject(this, &ABackendService::HandleResponse);
@@ -26,7 +32,7 @@ void ABackendService::HandleResponse(FHttpRequestPtr Request, FHttpResponsePtr R
 	}
 	else
 	{
-		ResponseStr = "[FAIL]" + Response->GetContentAsString();
+		ResponseStr = "[FAIL] Response is empty";
 	}
 
 	M_IsRequestComplete = true;

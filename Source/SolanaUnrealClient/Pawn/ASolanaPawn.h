@@ -25,8 +25,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
-	void RunAPIRequest(const FString& Call) const;
-	void OnRequestFinished(const FString& Output) const;
+	void RunAPIRequest(const FString Call) const;
+	void OnRequestFinished(const FString Output) const;
 
 private:
 	// HUD class to spawn for head up display

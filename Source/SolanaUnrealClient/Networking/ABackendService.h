@@ -5,7 +5,7 @@
 #include "Interfaces/IHttpRequest.h"
 #include "ABackendService.generated.h"
 
-DECLARE_DELEGATE_OneParam(FOnRequestComplete, const FString& /*Request*/);
+DECLARE_DELEGATE_OneParam(FOnRequestComplete, const FString /*Request*/);
 
 UCLASS()
 class SOLANAUNREALCLIENT_API ABackendService : public AActor
@@ -15,7 +15,7 @@ class SOLANAUNREALCLIENT_API ABackendService : public AActor
 public:
 	ABackendService();
 
-	void SendGetRequest(const FString& Url);
+	void SendGetRequest(const FString Url);
 	void HandleResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 protected:
