@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Interfaces/IHttpRequest.h"
-#include "ABackendService.generated.h"
+#include "ABackendServiceBackup.generated.h"
 
 UCLASS()
 class SOLANAUNREALCLIENT_API ABackendServiceBackup : public AActor
