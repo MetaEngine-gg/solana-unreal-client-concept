@@ -17,7 +17,7 @@ void ASolanaPawn::BeginPlay()
 		M_MainHUDInstance->AddToPlayerScreen();
 
 		M_MainHUDInstance->OnRunCommand.BindUObject(this, &ASolanaPawn::RunAPIRequest);
-		M_BackendServiceInstance->OnRequestComplete.BindUObject(M_MainHUDInstance, &ASolanaPawn::OnRequestFinished);
+		M_BackendServiceInstance->OnRequestComplete.BindUObject(this, &ASolanaPawn::OnRequestFinished);
 	}
 }
 

@@ -30,6 +30,6 @@ void BackendService::HandleResponse(FHttpRequestPtr Request, FHttpResponsePtr Re
 	}
 
 	M_IsRequestComplete = true;
-	OnRequestComplete.Broadcast(ResponseStr);
+	OnRequestComplete.Execute(ResponseStr);
 }
 

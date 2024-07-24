@@ -4,7 +4,7 @@
 #include "GameFramework/Actor.h"
 #include "Interfaces/IHttpRequest.h"
 
-DECLARE_DYNAMIC_DELEGATE_OneParam(FOnRequestComplete, const FString&, Response);
+DECLARE_DELEGATE_OneParam(FOnRequestComplete, const FString& /*Request*/);
 
 class SOLANAUNREALCLIENT_API BackendService
 {
