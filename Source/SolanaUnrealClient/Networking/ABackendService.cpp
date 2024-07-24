@@ -9,9 +9,17 @@ ABackendService::ABackendService()
 
 void ABackendService::SendGetRequest(const FString Url)
 {
+	if (M_IsRequestComplete == false)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Request is already in progress"));
+		OnRequestComplete.Execute(TEXT("Request is already in progress"));
+		return;
+	}
+	
 	if (Url.IsEmpty() || !Url.Contains("http://") && !Url.Contains("https://"))
 	{
 		UE_LOG(LogTemp, Error, TEXT("Url is invalid"));
+		OnRequestComplete.Execute(TEXT("Url is invalid"));
 		return;
 	}
 	
