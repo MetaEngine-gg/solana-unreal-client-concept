@@ -7,7 +7,7 @@
 #include "Components/TextBlock.h"
 #include "UMainHUD.generated.h"
 
-DECLARE_DYNAMIC_DELEGATE_OneParam(FRunCommandDelegate);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FRunCommandDelegate, const FString&, Command);
 
 UCLASS()
 class SOLANAUNREALCLIENT_API UMainHUD : public UUserWidget
