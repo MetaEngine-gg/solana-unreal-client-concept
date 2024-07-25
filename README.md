@@ -20,7 +20,7 @@ SOL.BRIDGE.CLIENT is a simple Unreal Engine 5 project that demonstrates how to i
 - Have C++ classes that demonstrate how to make REST API calls using Unreal Engine 5.
 - Shows how to handle responses and errors from the server-side application.
 - Serialize and deserialize data examples using C++.
-- Clear flow how to handle HTTP/HTTPS requests using Unreal Engine 5 and C++ static delegates.
+- Clear flow how to handle HTTP/HTTPS requests using Unreal Engine 5 and C++.
 
 ## Getting Started
 
