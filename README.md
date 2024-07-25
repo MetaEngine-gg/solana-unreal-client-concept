@@ -8,109 +8,175 @@
 
 # Introduction
 
-SOL.BRIDGE is an ASP.NET solution that focuses on bridging a gap between developers and [Solnet](https://github.com/bmresearch/Solnet) library. It provides a production-ready ASP.NET template with all Solnet packages and usable examples, allowing you to get started with a blockchain server solution in no time.
+SOL.BRIDGE.CLIENT is a simple Unreal Engine 5 project that demonstrates how to interact with the SOL.BRIDGE server-side application using REST API calls. It's a good starting point for anyone who wants to build a client-side application that interacts with a SOL.BRIDGE server.
 
 </p>
 
 </div>
 
 ## Features
-- Production ready ASP.NET template
-- Real World examples of API endpoints and services that give you a head start and understanding of how to use Solnet library and interact with Solana blockchain
-- Swagger documentation for all API endpoints
-- Fully customizable and extendable model of API controllers that show how to build and scale your server-side application with Solnet
-- Extensive logging and error handling examples, no longer out-of-the-box solutions that you need to figure out how to use
-- Ready to deploy to Azure, AWS, or any other cloud provider
-- Extensive use of dependency injection and services that show how to build a scalable and maintainable solution
-- Wide coverage of Solnet library features and examples, including Solana Wallets, Solana Key Store, Solana RPC calls, Solana Streaming RPC calls, Solana Programs, and more
+- Implements a simple client-side application that interacts with the SOL.BRIDGE server-side application.
+- Have simple UI that allows you to interact with the server-side application by making REST API calls from the UMG Widget.
+- Have C++ classes that demonstrate how to make REST API calls using Unreal Engine 5.
+- Shows how to handle responses and errors from the server-side application.
+- Serialize and deserialize data examples using C++.
+- Clear flow how to handle HTTP/HTTPS requests using Unreal Engine 5 and C++ static delegates.
 
 ## Getting Started
 
-- Here's you will see how to get started with SOL.BRIDGE and how to run the solution on your local machine.
-It's pretty standard ASP.NET solution, so you can run it in Visual Studio or Visual Studio Code.
-- Just clone a repository and then open a solution, build it, and run it. You can also run it from the command line using `dotnet run` command.
-- All config files, dependencies, and settings are already set up for you, so you don't need to worry about it.
-- Once you open it in the IDE, IDE will find run config files and you will be able to run HTTP/HTTPS server on your local machine with a single click.
-- Swagger is enabled by default, so you can see all example API endpoints and interact with them in the browser straight away.
+- Clone the repository.
+- Open the project in Unreal Engine 5.
+- Run the project.
+- You can interact with the server-side application by using the UI in the UMG Widget.
+- Put API address to the input field and press the send button to make a REST API call.
+- You can see the response in the output block below.
 
 ## Solution Structure Overview
 
-### Controllers
+### HUD
 
-- This is where all API controllers are located. Each controller is responsible for a specific part of the application and has a set of API endpoints that can be called from the client-side application.
-We have divided them by the Solnet packages they are using, so you can easily find the one you are looking for.
-- They are making first validation stage of the data and then passing it to the data controllers.
-- Also they return the data to the client-side application from the data controllers.
-- The result of the API call also get handled here, so you can see how to handle different types of responses and errors.
+- Classes that control UMG Widgets and handle user input.
+- Contains main UI logic and callbacks that are triggered by user input.
+- Callbacks from the UI then goes to the different classes that handle the logic.
 
-Example of API controller:
+#### UMainHUD.h:
 
-```c#
-[HttpPost, Route("encrypt-account-data")]
-public ActionResult<string> EncryptAccountData([FromBody] EncryptAccountPayload payload)
+```c++
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Blueprint/UserWidget.h"
+#include "Components/Button.h"
+#include "Components/EditableText.h"
+#include "Components/TextBlock.h"
+#include "UMainHUD.generated.h"
+
+DECLARE_DELEGATE_OneParam(FRunCommandDelegate, const FString /*Call*/);
+
+UCLASS()
+class SOLANAUNREALCLIENT_API UMainHUD : public UUserWidget
 {
-    if (string.IsNullOrEmpty(payload.Password))
-    {
-        return StatusCode(400, "Password is empty");
-    }
+	GENERATED_BODY()
+public:
+	void Init() const;
 
-    if (string.IsNullOrEmpty(payload.AccountData))
-    {
-        return StatusCode(400, "Account Data is empty");
-    }
+	UFUNCTION()
+	void RunCommand();
+	UFUNCTION()
+	void ClearOutputText();
+	void AddOutputText(const FString& String);
+	
+	FRunCommandDelegate OnRunCommand;
+private:
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UEditableText* BaseApiText;
 
-    if (string.IsNullOrEmpty(payload.PublicKey))
-    {
-        return StatusCode(400, "Public Key is empty");
-    }
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UButton* RunButton;
 
-    var status = _solnetKeystoreController.EncryptAccountData(payload);
-    return status.result ? StatusCode(200, status.text) : StatusCode(500, status.text);
-}
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UButton* ClearButton;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UTextBlock* OutputText;
+};
 ```
 
-### Data Controllers
+### Networking
 
-- This is where all data controllers are located. Data controllers are responsible for handling data and making sure that it is stored and retrieved correctly. They are using services to interact with the database and other services.
-- They are handling all business logic and data manipulation.
-- Of course you can make separate structure to handle I/O operations, but for the sake of simplicity we have made them data controllers as well.
-- They are returning the data to the API controllers, so they can return it to the client-side application.
+- This is where all networking logic is located.
+- Contains classes that handle HTTP/HTTPS requests and responses.
+- Handles serialization and deserialization of data.
+- Responsible for making REST API calls to the server-side application.
 
-Example of Data controller:
+#### ABackendService.h:
 
-```c#
-public (bool result, string text) EncryptAccountData(EncryptAccountPayload payload)
+```c++
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "Interfaces/IHttpRequest.h"
+#include "ABackendService.generated.h"
+
+DECLARE_DELEGATE_OneParam(FOnRequestComplete, const FString /*Request*/);
+
+UCLASS()
+class SOLANAUNREALCLIENT_API ABackendService : public AActor
 {
-    var accountDataBytes = Encoding.UTF8.GetBytes(payload.AccountData);
-    // Encrypt a private key, seed or mnemonic associated with a certain address
-    var jsonString = _secretKeyStoreService.EncryptAndGenerateDefaultKeyStoreAsJson(
-        payload.Password,
-        accountDataBytes,
-        payload.PublicKey
-    );
+	GENERATED_BODY()
 
-    // here you can save encrypted data to a file or database
+public:
+	ABackendService();
 
-    return (true, jsonString);
-}
+	void SendGetRequest(const FString Url);
+	void HandleResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
+
+protected:
+	virtual void BeginPlay() override;
+
+public:
+	virtual void Tick(float DeltaTime) override;
+
+public:
+	FOnRequestComplete OnRequestComplete;
+
+private:
+	TSharedPtr<IHttpRequest> M_HttpRequest;
+	bool M_IsRequestComplete = true;
+};
 ```
 
-### Models
+### Pawn
 
-- This is where all models are located. Models are used to define the structure of the data that is being sent and received from the client-side application. They are used to serialize and deserialize data.
-- It's a good practice to make them as simple as possible, so you can easily understand what data is being sent and received.
-- Also try to keep them as a struct, so you can easily pass them around without worrying about the accidental object mutation.
+- Just a simple Pawn class that is used to spawn the HUD.
+- Responsible for creating the HUD and setting up the UI.
+- Redirects delegates from the HUD to the BackendService.
 
-Example of Model:
+#### ASolanaPawn.h:
 
-```c#
-[Serializable]
-public struct EncryptAccountPayload
+```c++
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/Pawn.h"
+#include "SolanaUnrealClient/HUD/UMainHUD.h"
+#include "SolanaUnrealClient/Networking/ABackendService.h"
+#include "ASolanaPawn.generated.h"
+
+UCLASS()
+class SOLANAUNREALCLIENT_API ASolanaPawn : public APawn
 {
-    public string Password { get; set; }
-    public string AccountData { get; set; }
-    public string PublicKey { get; set; }
-}
+	GENERATED_BODY()
+
+public:
+	ASolanaPawn();
+
+protected:
+	virtual void BeginPlay() override;
+
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+public:
+	virtual void Tick(float DeltaTime) override;
+
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+private:
+	void RunAPIRequest(const FString Call) const;
+	void OnRequestFinished(const FString Output) const;
+
+private:
+	// HUD class to spawn for head up display
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UMainHUD> MainHUDClass = nullptr;
+
+	// HUD instance
+	UPROPERTY()
+	UMainHUD* M_MainHUDInstance = nullptr;
+
+	ABackendService* M_BackendServiceInstance = nullptr;
+};
 ```
 
 ## Solnet Library
